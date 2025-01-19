@@ -38,6 +38,8 @@ contract VaultFed {
         require(_chair != address(0), "Chair is required");
         require(block.chainid == 1, "Must mint DOLA on Mainnet");
         vault = IERC4626(_vault);
+        gov = _gov;
+        chair = _chair;
         dola = IERC20(vault.asset());
         dola.approve(address(vault), type(uint).max);
     }
