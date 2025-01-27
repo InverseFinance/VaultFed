@@ -96,18 +96,6 @@ contract VaultFed {
         emit Contraction(amount);
     }
 
-    function contractAll() onlyChair external {
-        uint shares = vault.convertToShares(supply);
-        uint bal = vault.balanceOf(address(this));
-        if(shares > bal) {
-            shares = bal;
-        }
-        uint assets = vault.redeem(shares, address(this), address(this));
-        supply -= assets;
-        dola.burn(assets);
-        emit Contraction(assets);
-    }
-
     function takeProfit() external {
         uint profit = vault.convertToAssets(vault.balanceOf(address(this))) - supply;
         vault.withdraw(profit, gov, address(this));

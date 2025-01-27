@@ -150,20 +150,6 @@ contract VaultFedTest is Test {
         vaultFed.contraction(100);
     }
 
-    function test_contractAll() public {
-        test_expansion();
-        vm.prank(CHAIR);
-        vaultFed.contractAll();
-        assertEq(vaultFed.supply(), 0);
-        assertEq(mockVault.balanceOf(address(vaultFed)), 0);
-    }
-
-    function test_contractAll_notChair() public {
-        vm.prank(address(0x4));
-        vm.expectRevert("NOT PERMISSIONED");
-        vaultFed.contractAll();
-    }
-
     function test_takeProfit() public {
         test_expansion();
         vm.prank(CHAIR);
