@@ -156,7 +156,6 @@ contract VaultFedTest is Test {
         // mint 100 profit to the vault
         MockToken dola = MockToken(address(mockVault.asset()));
         dola.mint(address(mockVault), 100);
-        vm.prank(CHAIR);
         vaultFed.takeProfit();
         assertEq(dola.balanceOf(GOV), 100);
         assertEq(dola.balanceOf(address(mockVault)), 100);

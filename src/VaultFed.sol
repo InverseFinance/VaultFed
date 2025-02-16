@@ -3,12 +3,11 @@ pragma solidity ^0.8.13;
 
 interface IERC4626 {
     function asset() external view returns (address);
-    function convertToAssets(uint256 shares) external view returns (uint256 assets);
-    function convertToShares(uint256 assets) external view returns (uint256 shares);
     function balanceOf(address owner) external view returns (uint256);
     function deposit(uint256 assets, address receiver) external returns (uint256 shares);
     function withdraw(uint256 assets, address receiver, address owner) external returns (uint256 shares);
     function redeem(uint256 shares, address receiver, address owner) external returns (uint256 assets);
+    function previewRedeem(uint256 shares) external view returns (uint256 assets);
     function transfer(address to, uint256 value) external returns (bool);
 }
 
@@ -97,7 +96,7 @@ contract VaultFed {
     }
 
     function takeProfit() external {
-        uint profit = vault.convertToAssets(vault.balanceOf(address(this))) - supply;
+        uint profit = vault.previewRedeem(vault.balanceOf(address(this))) - supply;
         vault.withdraw(profit, gov, address(this));
         emit Profit(profit);
     }
